@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Create</title>
+</head>
+<body>
+<h3>REGISTER EMPLOYEE</h3>
+<div class="container">
+    <form>
+        ID
+        <input type="number" name="id" id="id" required/><br>
+        <span style="display:none ;color: red" id="iderror">Id is Empty</span>
+        Name
+        <input type="text" name="name" id="name" required/><br>
+        <span style="display:none ;color: red" id="nameerror">Name is Empty</span>
+        Address_Line-1
+        <input type="text" name="address1" id="address1" required/><br>
+        <span style="display:none ;color: red" id="address1error">Address1 is Empty</span>
+        Address_Line-2
+        <input type="text" name="address2" id="address2" required/><br>
+        <span style="display:none ;color: red" id="address2error">Address2 is Empty</span>
+        City
+        <input type="text" name="city" id="city" required/><br>
+        <span style="display:none ;color: red" id="cityerror">City is Empty</span>
+        Zipcode
+        <input type="number" name="code" id="code" required/>
+        <span style="display:none ;color: red" id="zipcodeerror">Zipcode is Empty</span>
+        <br><br>
+        <input type="button" value="Save" onclick="valid() ? saveEmployee() : null" class="btn btn-primary">
+        <input type="button" value="Back" onclick="back()" class="btn btn-secondary">
+    </form>
+</div>
+<script>
+    function saveEmployee() {
+
+        var id = $('#id').val()
+        var name = $('#name').val()
+        var address1 = $('#address1').val()
+        var address2 = $('#address2').val()
+        var city = $('#city').val()
+        var code = $('#code').val()
+
+
+        $.ajax({
+            url: "http://localhost:8080/Employee/save",
+            type: "POST",
+            contentType: 'application/json',
+            data: JSON.stringify(
+                {
+                    employeeNumber: id,
+                    employeeName: name,
+                    address1: address1,
+                    address2: address2,
+                    city: city,
+                    zipcode: code
+                }),
+            success: function (res) {
+                alert("Saved Successfully");
+                back()
+            }
+        })
+    }
+
+    function back() {
+        window.location.href = "index.html"
+    }
+
+    function valid() {
+        var id = $('#id').val()
+        var name = $('#name').val()
+        var address1 = $('#address1').val()
+        var address2 = $('#address2').val()
+        var city = $('#city').val()
+        var code = $('#code').val()
+
+        if (name === '') {
+            $('#nameerror').css('display', 'block')
+            return false;
+        }
+        if (address1 === '') {
+            $('#address1error').css('display', 'block')
+            return false;
+        }
+        if (address2 === '') {
+            $('#address2error').css('display', 'block')
+            return false;
+        }
+        if (city === '') {
+            $('#cityerror').css('display', 'block')
+            return false;
+        }
+        if (code === '') {
+            $('#zipcodeerror').css('display', 'block')
+            return false;
+        }
+        return true;
+    }
+</script>
+</body>
+</html>

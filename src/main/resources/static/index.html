@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+<h3> EMPLOYEE MANAGEMENT</h3>
+<br><br>
+<form>
+    <input type="button" value="Create" onclick="createEmployee()"/><br><br>
+</form>
+<form>
+    <input type="button" value="view" onclick="viewEmployee()"/><br><br>
+</form>
+<script>
+    function createEmployee(){
+        localStorage.clear();
+        window.location.href="create.html"
+    }
+    function viewEmployee(){
+        window.location.href="view.html"
+    }
+</script>
+</body>
+</html>

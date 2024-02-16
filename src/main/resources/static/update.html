@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h3>UPDATE EMPLOYEE</h3>
+    <div>
+        <form>
+            <div class="mb-3">
+                <label for="id" class="form-label">Employee Number</label>
+                <input type="number" class="form-control" name="id" id="id" required/>
+            </div>
+            <div class="mb-3">
+                <label for="name" class="form-label">Employee Name</label>
+                <input type="text" class="form-control" name="name" id="name" required/>
+            </div>
+            <div class="mb-3">
+                <label for="address1" class="form-label">Address Line 1</label>
+                <input type="text" class="form-control" name="address1" id="address1" required/>
+            </div>
+            <div class="mb-3">
+                <label for="address2" class="form-label">Address Line 2</label>
+                <input type="text" class="form-control" name="address2" id="address2" required/>
+            </div>
+            <div class="mb-3">
+                <label for="city" class="form-label">City</label>
+                <input type="text" class="form-control" name="city" id="city" required/>
+            </div>
+            <div class="mb-3">
+                <label for="code" class="form-label">Zipcode</label>
+                <input type="number" class="form-control" name="code" id="code" required/>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="editEmployee()">Save</button>
+            <button type="button" class="btn btn-secondary" onclick="back()">Back</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var employeeNumber = localStorage.getItem("employeeNumber");
+        $.ajax({
+            url: "http://localhost:8080/Employee/findById/" + employeeNumber,
+            type: "GET",
+            contentType: 'application/json',
+            success: function (res) {
+                $('#id').val(res.employeeNumber);
+                $('#name').val(res.employeeName);
+                $('#address1').val(res.address1);
+                $('#address2').val(res.address2);
+                $('#city').val(res.city);
+                $('#code').val(res.zipcode);
+            }
+        });
+    });
+
+    function editEmployee() {
+        var id = $('#id').val();
+        var name = $('#name').val();
+        var address1 = $('#address1').val();
+        var address2 = $('#address2').val();
+        var city = $('#city').val();
+        var code = $('#code').val();
+        $.ajax({
+            url: "http://localhost:8080/Employee/update",
+            type: "PUT",
+            contentType: 'application/json',
+            data: JSON.stringify({
+                employeeNumber: id,
+                employeeName: name,
+                address1: address1,
+                address2: address2,
+                city: city,
+                zipcode: code
+            }),
+            success: function (res) {
+                alert("Updated Successfully");
+                back();
+            }
+        });
+    }
+
+    function back() {
+        window.location.href = "view.html";
+    }
+</script>
+</body>
+</html>
